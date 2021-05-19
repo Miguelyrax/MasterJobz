@@ -79,15 +79,18 @@ const editUsuario =async(req, res= response)=>{
 const deleteUsuario =async(req, res= response)=>{
     try {
         const id = req.params.id;
+        const usuario = req.usuario;
         
         const renovado = await Usuario.findByIdAndUpdate(id, {status:false}, {new:true});  
 
 
         res.json({
             ok:true,
-            renovado
+            renovado,
+            auth:usuario
         })
     } catch (error) {
+        console.log(error)
         res.json({
             ok:true,
             msg:'Error al borrar'
