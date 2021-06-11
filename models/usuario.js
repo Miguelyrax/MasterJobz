@@ -16,7 +16,7 @@ const UsuarioSchema = Schema({
     },
     status:{
         type:Boolean,
-        default:false
+        default:true
         
     },
     img:{

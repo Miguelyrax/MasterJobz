@@ -11,6 +11,12 @@ const login= async(req, res = response)=>{
       
         const usuario = await Usuario.findOne({email});
         
+        if(!usuario){
+            return res.json({
+                ok:false,
+                msg:'El usuario no existe'
+            });
+        }
         if(!usuario.status){
             return res.json({
                 ok:false,
@@ -18,13 +24,8 @@ const login= async(req, res = response)=>{
             });
         }
 
-        if(!usuario){
-            return res.json({
-                ok:false,
-                msg:'El usuario no existe'
-            });
-        }
-        console.log('aqui')
+        
+        
 
         const validarPassword = bcryptjs.compareSync(password,usuario.password);
         if(!validarPassword){
@@ -41,10 +42,11 @@ const login= async(req, res = response)=>{
          res.json({
             ok:true,
             msg:'Usuario ingresado',
+            usuario,
             token
         });
         
-        console.log(validarPassword)
+        
 
     } catch (error) {
         console.log(error)
@@ -55,6 +57,22 @@ const login= async(req, res = response)=>{
     }
 }
 
+const renewJWT = async(req, res=response)=>{
+    const usuario = req.usuario;
+    const {_id, email} = req.usuario;
+
+    const token  = await generarJWT(_id, email);
+
+    res.json({
+        ok:true,
+        usuario,
+        token
+    })
+    
+
+}
+
 module.exports={
-    login
+    login,
+    renewJWT
 }

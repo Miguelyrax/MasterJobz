@@ -14,7 +14,9 @@ router.post('/',[
     check('email','El email no es valido').isEmail(),
     check('email').custom(emailExist),
     check('password','El nombre es requerido').not().isEmpty(),
-    check('role').custom(customRol),
+    check('role').custom(customRol), 
+    validarToken,
+    validarRoles('ADMIN-ROLE','USER-ROLE'),
     validarCampos,
     
     
@@ -22,13 +24,13 @@ router.post('/',[
 router.put('/:id',[
     check('id','Id no es valido').isMongoId(),
     check('id').custom(validarId),
-    check('role').custom(customRol),
     validarToken,
+    validarRoles('ADMIN-ROLE'),
     validarCampos
 ],editUsuario);
 router.delete('/:id',[
     validarToken,
-    validarRoles('ADMIN-ROLE','USER-ROLE'),
+    validarRoles('ADMIN-ROLE'),
     check('id','Id no es valido').isMongoId(),
     check('id').custom(validarId),
     validarCampos

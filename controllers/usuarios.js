@@ -4,7 +4,7 @@ const bcryptjs  = require('bcryptjs');
 
 const getUsuarios =async(req, res= response)=>{
     try { 
-        const {limit = 5, base = 1} = req.query;
+        const {limit = 5, base = 0} = req.query;
         const query = {"status":true};
         
         
@@ -53,7 +53,7 @@ const editUsuario =async(req, res= response)=>{
         const _id = req.params.id;
         const {password , email, google, ...rest} = req.body;
         
-        console.log(password);
+     
 
         if(password){
             const salt = bcryptjs.genSaltSync(1);
@@ -61,7 +61,7 @@ const editUsuario =async(req, res= response)=>{
         }
 
         const usuario = await Usuario.findByIdAndUpdate(_id, rest,{new:true});
-        console.log(usuario)
+        
         res.json({
             ok:true,
             usuario

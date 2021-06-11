@@ -11,6 +11,8 @@ class Server {
         this.server=http.createServer(this.app);
         this.usuarios = '/api/usuarios';
         this.auth = '/api/auth';
+        this.logs = '/api/logs';
+       
 
         dbConection();
     }
@@ -21,6 +23,8 @@ class Server {
         this.app.use(cors());
         this.app.use(this.usuarios,require('../routes/usuarios'));
         this.app.use(this.auth,require('../routes/auth'));
+        this.app.use(this.logs,require('../routes/logs'));
+      
         
     }
 

@@ -37,10 +37,11 @@ const validarToken = async(req, res , next)=>{
     }
     
     req.usuario = usuario;
+    
 
     next();
     } catch (error) {
-        
+        console.log(error);
         return res.json({
             ok:false,
             msg:'Error'
