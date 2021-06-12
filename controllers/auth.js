@@ -14,7 +14,8 @@ const login= async(req, res = response)=>{
         if(!usuario){
             return res.json({
                 ok:false,
-                msg:'El usuario no existe'
+                msg:'El usuario no existe',
+                body:req.body
             });
         }
         if(!usuario.status){
