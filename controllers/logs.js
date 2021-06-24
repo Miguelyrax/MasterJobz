@@ -7,7 +7,7 @@ const Usuario = require("../models/usuario");
 const getLogs = async(req, res = response)=>{
     try {
         const {limit = 5, base = 0} = req.query;
-        const logs = await Logs.find().skip(Number(base)).limit(Number(limit)).populate('usuario','nombre').sort('fecha');
+        const logs = await Logs.find().skip(Number(base)).limit(Number(limit)).populate('usuario','nombre').sort({'createdAt':-1});
         logs
         res.json({
             ok:true,
