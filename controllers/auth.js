@@ -12,14 +12,14 @@ const login= async(req, res = response)=>{
         const usuario = await Usuario.findOne({email});
         
         if(!usuario){
-            return res.json({
+            return res.status(400).json({
                 ok:false,
                 msg:'El usuario no existe',
                 body:req.body
             });
         }
         if(!usuario.status){
-            return res.json({
+            return res.status(400).json({
                 ok:false,
                 msg:'Usuario inactivo'
             });
@@ -31,7 +31,7 @@ const login= async(req, res = response)=>{
         const validarPassword = bcryptjs.compareSync(password,usuario.password);
         if(!validarPassword){
             
-                return res.json({
+                return res.status(400).json({
                     ok:false,
                     msg:'El password no es valido'
                 });
@@ -40,7 +40,7 @@ const login= async(req, res = response)=>{
         const {_id} = usuario;
         const token = await generarJWT(_id,email);
         
-         res.json({
+         res.status(200).json({
             ok:true,
             msg:'Usuario ingresado',
             usuario,
@@ -51,12 +51,38 @@ const login= async(req, res = response)=>{
 
     } catch (error) {
         console.log(error)
-        return res.json({
+        return res.status(400).json({
             ok:false,
             msg:'Error al loguear'
         });
     }
 }
+
+const register =async(req, res= response)=>{
+    try {
+         
+        const {nombre, email, password, role} = req.body;
+       
+        const usuario = new Usuario({nombre, email, password, role});
+
+        const salt = bcryptjs.genSaltSync(1);
+        usuario.password = bcryptjs.hashSync(password, salt);
+
+        await usuario.save();
+        res.status(201).json({
+            ok:true,
+            usuario
+        });
+    } catch (error) {
+        res.status(400).json({
+            ok:false,
+            msg:'Error al crear usuario',
+            error
+        });
+    }
+}
+
+
 
 const renewJWT = async(req, res=response)=>{
     const usuario = req.usuario;
@@ -64,7 +90,7 @@ const renewJWT = async(req, res=response)=>{
 
     const token  = await generarJWT(_id, email);
 
-    res.json({
+    res.status(200).json({
         ok:true,
         usuario,
         token
@@ -75,5 +101,6 @@ const renewJWT = async(req, res=response)=>{
 
 module.exports={
     login,
-    renewJWT
+    renewJWT,
+    register
 }

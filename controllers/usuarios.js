@@ -62,14 +62,14 @@ const editUsuario =async(req, res= response)=>{
 
         const usuario = await Usuario.findByIdAndUpdate(_id, rest,{new:true});
         
-        res.json({
+        res.status(201).json({
             ok:true,
             usuario
         })
          
     } catch (error) {
         console.log(error)
-        res.json({
+        res.status(400).json({
             ok:false,
             msg:'Error al actualizar',
             error

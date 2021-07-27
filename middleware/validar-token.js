@@ -42,7 +42,7 @@ const validarToken = async(req, res , next)=>{
     next();
     } catch (error) {
         console.log(error);
-        return res.json({
+        return res.status(404).json({
             ok:false,
             msg:'Error'
         });

@@ -31,6 +31,10 @@ const UsuarioSchema = Schema({
     google:{
         type:Boolean,
         default:false
+    },
+    online:{
+        type:String,
+        default:false
     }
 });
 

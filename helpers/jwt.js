@@ -14,7 +14,21 @@ const  generarJWT = (uid, email)=>{
         })
     });
 }
+const comprobarJWT =(token = '')=>{
+    
+
+    try {
+       
+            const {uid} = jwt.verify(token, process.env.CLAVE_SECRETA);
+            return [true, uid];
+            
+                
+    } catch (error) {
+        return [false, null];
+    }
+}
 
 module.exports = {
-    generarJWT
+    generarJWT,
+    comprobarJWT
 }

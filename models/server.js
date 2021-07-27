@@ -3,6 +3,7 @@ const http = require('http');
 const path = require('path');
 const cors = require('cors');
 const dbConection = require('../db/config');
+
 class Server {
 
     constructor(){
@@ -11,9 +12,12 @@ class Server {
         this.server=http.createServer(this.app);
         this.usuarios = '/api/usuarios';
         this.auth = '/api/auth';
-        this.logs = '/api/logs';
-       
-
+        this.mensajes = '/api/mensajes';
+        this.profiles = '/api/profiles';
+        this.jobs = '/api/jobs';
+        this.postulantes = '/api/postulantes';
+        this.requerimientos = '/api/requerimiento';
+        this.requisitos = '/api/requisito';
         dbConection();
     }
 
@@ -23,9 +27,12 @@ class Server {
         this.app.use(cors());
         this.app.use(this.usuarios,require('../routes/usuarios'));
         this.app.use(this.auth,require('../routes/auth'));
-        this.app.use(this.logs,require('../routes/logs'));
-      
-        
+        this.app.use(this.mensajes,require('../routes/mesajes'));
+        this.app.use(this.profiles,require('../routes/profile'));
+        this.app.use(this.jobs,require('../routes/job'));
+        this.app.use(this.postulantes,require('../routes/postulante'));
+        this.app.use(this.requerimientos,require('../routes/requerimiento'));
+        this.app.use(this.requisitos,require('../routes/requisito'));
     }
 
     listen(){
